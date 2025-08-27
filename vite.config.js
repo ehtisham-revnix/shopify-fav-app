@@ -41,8 +41,6 @@ export default defineConfig({
   server: {
     allowedHosts: [
       host,
-      "msie-motorcycle-renewable-cord.trycloudflare.com", // ✅ Your Cloudflare tunnel domain added
-      "archive-voluntary-andy-pointing.trycloudflare.com", // ✅ New Cloudflare tunnel domain added
     ],
     cors: {
       preflightContinue: true,
