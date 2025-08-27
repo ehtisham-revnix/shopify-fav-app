@@ -1,0 +1,47 @@
+
+{% if customer %}
+  <button id="favorite-btn" product_handle={{ product.handle }} style="padding:10px 15px;background:#000;color:#fff;border:none;border-radius:5px;">
+    Add to Favorite
+  </button>
+
+  <script>
+document
+  .getElementById("favorite-btn")
+  .addEventListener("click", async () => {
+    try {
+      const response = await fetch('https://significant-alot-ee-survivors.trycloudflare.com/api/update-metafields', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          customerId: "gid://shopify/Customer/{{ customer.id }}",
+          shop: "lemon-uae-store",
+          metafields: [
+            {
+              namespace: 'favorite',
+              key: 'favorite_products',
+              value: `"{{ product.handle }}"`
+            },
+            {
+              namespace: 'favorite',
+              key: 'last_updated',
+              value: new Date().toISOString()
+            }
+          ]
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        console.log('Metafields updated successfully!');
+      } else {
+        console.error('Failed to update:', data.error);
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+    }
+  });
+  </script>
+{% endif %}

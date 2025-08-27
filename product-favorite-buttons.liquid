@@ -1,0 +1,66 @@
+{% if customer %}
+  <!-- Container for favorite buttons -->
+  <div id="favorite-container" style="margin: 10px 0;">
+    <!-- Remove from Favorites Button -->
+    <button id="remove-favorite-btn" product_handle="{{ product.handle }}" 
+            style="padding:10px 15px;background:#dc3545;color:#fff;border:none;border-radius:5px;">
+      Remove from Favorites
+    </button>
+    
+    <!-- Status message -->
+    <div id="favorite-status" style="margin-top:10px;font-size:14px;"></div>
+  </div>
+
+  <script>
+    const productHandle = "{{ product.handle }}";
+    const customerId = "gid://shopify/Customer/{{ customer.id }}";
+    const shop = "lemon-uae-store"; // Replace with your actual shop name
+    const baseUrl = "https://msie-motorcycle-renewable-cord.trycloudflare.com"; // Your app URL
+
+    const removeBtn = document.getElementById("remove-favorite-btn");
+    const statusDiv = document.getElementById("favorite-status");
+
+    // Function to show status message
+    function showStatus(message, isError = false) {
+      statusDiv.textContent = message;
+      statusDiv.style.color = isError ? "#dc3545" : "#28a745";
+      setTimeout(() => {
+        statusDiv.textContent = "";
+      }, 3000);
+    }
+
+    // Remove from favorites functionality
+    removeBtn.addEventListener("click", async () => {
+      removeBtn.disabled = true;
+      removeBtn.textContent = "Removing...";
+      
+      try {
+        const response = await fetch(`${baseUrl}/api/remove-metafields`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            customerId: customerId,
+            shop: shop,
+            productHandle: productHandle
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          showStatus('Removed from favorites successfully!');
+        } else {
+          showStatus('Failed to remove from favorites: ' + (data.error || 'Unknown error'), true);
+        }
+      } catch (error) {
+        console.error('Network error:', error);
+        showStatus('Network error occurred', true);
+      } finally {
+        removeBtn.disabled = false;
+        removeBtn.textContent = "Remove from Favorites";
+      }
+    });
+  </script>
+{% endif %}

@@ -1,0 +1,24 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "f773bc59f8c6788bd15b4d6f0abab781"
+name = "fav-app-8"
+handle = "fav-app-9"
+application_url = "https://archive-voluntary-andy-pointing.trycloudflare.com"
+embedded = true
+
+[build]
+include_config_on_deploy = true
+automatically_update_urls_on_dev = true
+
+[webhooks]
+api_version = "2025-07"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_customers,read_script_tags,write_customers,write_products,write_script_tags"
+
+[auth]
+redirect_urls = ["https://archive-voluntary-andy-pointing.trycloudflare.com/auth/callback", "https://archive-voluntary-andy-pointing.trycloudflare.com/auth/shopify/callback", "https://archive-voluntary-andy-pointing.trycloudflare.com/api/auth/callback"]
+
+[pos]
+embedded = false

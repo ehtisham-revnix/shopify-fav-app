@@ -1,0 +1,40 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "03533b1b60bda23860b23713458030af"
+name = "fav app 2"
+handle = "fav-app-2"
+application_url = "https://significant-alot-ee-survivors.trycloudflare.com"
+embedded = true
+
+[build]
+include_config_on_deploy = true
+automatically_update_urls_on_dev = true
+
+[webhooks]
+api_version = "2025-07"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "/webhooks/app/uninstalled"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/scopes_update" ]
+  uri = "/webhooks/app/scopes_update"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products,write_customers,read_customers,read_script_tags,write_script_tags"
+
+[auth]
+redirect_urls = [
+  "https://significant-alot-ee-survivors.trycloudflare.com/auth/callback",
+  "https://significant-alot-ee-survivors.trycloudflare.com/auth/shopify/callback",
+  "https://significant-alot-ee-survivors.trycloudflare.com/api/auth/callback"
+]
+
+[[app.proxy]]
+proxy_path = "/apps/favorite"
+subpath = "/api/update-metafield"
+
+[pos]
+embedded = false
